@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Todos</title>
+    <script defer src="//unpkg.com/htmx.org@2.0.3"></script>
 </head>
 <body>
+
+<div th:fragment="todos">
+
+    <h2>Todos</h2>
+    <div class="todo" th:each="todo : ${todos}">
+<!--        hx-delete a besoin de l'id et donc d'etre genere cote serveur avec thymeleaf-->
+        <button
+                hx-confirm="Are you sure ?"
+                hx-target="closest .todo"
+                hx-trigger="click"
+                th:attr="hx-delete=@{/todos/{id}(id=${todo.id})}"
+        >delete</button> | <span th:text="${todo.id}">ID</span> | <span th:text="${todo.title}">title</span>
+    </div>
+</div>
 
 </body>
 </html>
