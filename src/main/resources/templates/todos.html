@@ -4,21 +4,34 @@
     <meta charset="UTF-8">
     <title>Todos</title>
     <script defer src="//unpkg.com/htmx.org@2.0.3"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    <script src="http://localhost:35729/livereload.js"></script>
 </head>
 <body>
 
 <div th:fragment="todos">
-
     <h2>Todos</h2>
-    <div class="todo" th:each="todo : ${todos}">
-<!--        hx-delete a besoin de l'id et donc d'etre genere cote serveur avec thymeleaf-->
+    <div class="m-2 todo-item" th:each="todo : ${todos}">
         <button
+                class="btn btn-warning"
                 hx-confirm="Are you sure ?"
-                hx-target="closest .todo"
-                hx-trigger="click"
-                th:attr="hx-delete=@{/todos/{id}(id=${todo.id})}"
-        >delete</button> | <span th:text="${todo.id}">ID</span> | <span th:text="${todo.title}">title</span>
+                hx-target="closest .todo-item"
+                hx-trigger="click" th:attr="hx-delete=@{/todos/{id}(id=${todo.id})}"
+        >delete
+        </button>
+        <label for="todo-done">
+            <input id="todo-done" name="todo-done" th:checked="${todo.completed}" type="checkbox">
+        </label>
+        <span th:text="${todo.id}">ID</span> | <span th:text="${todo.title}">title</span>
     </div>
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+    <div class="error" th:if="${error != null}" th:text="${error}"></div>
+</div>
+
+<div class="todo-form" th:fragment="todo-form">
+
 </div>
 
 </body>
