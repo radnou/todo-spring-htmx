@@ -4,34 +4,67 @@
     <meta charset="UTF-8">
     <title>Todos</title>
     <script defer src="//unpkg.com/htmx.org@2.0.3"></script>
-
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css"/>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
-    <script src="http://localhost:35729/livereload.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 
-<div th:fragment="todos">
-    <h2>Todos</h2>
-    <div class="m-2 todo-item" th:each="todo : ${todos}">
-        <button
-                class="btn btn-warning"
-                hx-confirm="Are you sure ?"
-                hx-target="closest .todo-item"
-                hx-trigger="click" th:attr="hx-delete=@{/todos/{id}(id=${todo.id})}"
-        >delete
-        </button>
-        <label for="todo-done">
-            <input id="todo-done" name="todo-done" th:checked="${todo.completed}" type="checkbox">
-        </label>
-        <span th:text="${todo.id}">ID</span> | <span th:text="${todo.title}">title</span>
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-4">My Todo List</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Todo List -->
+        <div class="todo-list" th:fragment="todos">>
+            <h2 class="text-2xl font-semibold mb-2">Tasks</h2>
+            <ul class="bg-base-100 shadow-xl rounded-lg">
+                <li class="p-4 border-b hover:bg-base-200 todo-item" th:each="todo : ${todos}">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center cursor-pointer"
+                            >
+                            <input class="checkbox checkbox-primary mr-2" hx-trigger="click" id="todo-status"
+ name="todo-status" th:attr="hx-patch=@{/todos/{id}(id=${todo.id})}"
+                                   th:checked="${todo.completed}"
+                                   type="checkbox"
+                            >
+
+                            <span class=" hover:line-through "
+                                  th:classappend="${todo.completed ? 'line-through decoration-primary' : ''}"
+                                  th:text="${todo.title}"></span>
+                        </div>
+                        <button
+                                class="btn btn-warning btn-sm"
+                                hx-confirm="Are you sure ?"
+                                hx-target="closest .todo-item "
+                                hx-trigger="click"
+                                th:attr="hx-delete=@{/todos/{id}(id=${todo.id})}"
+                        >Delete
+                        </button>
+                    </div>
+
+                </li>
+
+            </ul>
+            <div class="error mt-4 text-red-500" th:if="${error}" th:text="${error}"></div>
+
+        </div>
+
+
+        <!-- Todo Form -->
+        <div class="todo-form bg-base-100 p-4 shadow-xl rounded-lg" hx-swap-oob="true" th:fragment="todo-form">
+            <h2 class="text-2xl font-semibold mb-2">Add Task</h2>
+            <input class="input input-bordered w-full mb-4" id="new-todo" name="new-todo"
+                   placeholder="Enter new task..." type="text"/>
+            <button class="btn btn-primary"
+                    hx-include="#new-todo"
+                    hx-post="/todos"
+                    hx-target=".todo-list"
+                    hx-trigger="click"
+            >Add
+            </button>
+        </div>
+
     </div>
-    <div class="error" th:if="${error}" th:text="${error}"></div>
-    <div class="error" th:if="${error != null}" th:text="${error}"></div>
-</div>
-
-<div class="todo-form" th:fragment="todo-form">
-
 </div>
 
 </body>
