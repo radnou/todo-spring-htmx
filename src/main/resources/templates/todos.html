@@ -1,17 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <title>Todos</title>
-    <script defer src="//unpkg.com/htmx.org@2.0.3"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css"/>
-    <script src="https://cdn.tailwindcss.com"></script>
+      <link th:href="@{/styles/main.css}" rel="stylesheet" type="text/css" media="all" >
+    <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.min.js"></script>
 </head>
 <body>
 
 <div class="container mx-auto p-4">
     <h1 class="text-3xl font-bold mb-4">My Todo List</h1>
-
+<label class="flex cursor-pointer gap-2">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round">
+    <circle cx="12" cy="12" r="5" />
+    <path
+      d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+  </svg>
+  <input type="checkbox" value="synthwave" class="toggle theme-controller" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</label>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Todo Form -->
         <div class="todo-form bg-base-100 p-4 shadow-xl rounded-lg" hx-swap-oob="true" th:fragment="todo-form">
@@ -30,12 +57,12 @@
         <div class="todo-list" th:fragment="todos">
             <h2 class="text-2xl font-semibold mb-2">Tasks</h2>
             <ul class="bg-base-100 shadow-xl rounded-lg">
-                <li class="p-4 border-b hover:bg-base-200 todo-item" th:each="todo : ${todos}">
+                <li class="todo-item p-4 border-b hover:bg-base-200 " th:each="todo : ${todos}">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center cursor-pointer"
                             >
                             <input class="checkbox checkbox-primary mr-2" hx-trigger="click" id="todo-status"
- name="todo-status" th:attr="hx-patch=@{/todos/{id}(id=${todo.id})}"
+ name="todo-status" th:attr="hx-patch=@{/{id}(id=${todo.id})}"
                                    th:checked="${todo.completed}"
                                    type="checkbox"
                             >
@@ -47,9 +74,10 @@
                         <button
                                 class="btn btn-warning btn-sm"
                                 hx-confirm="Are you sure ?"
-                                hx-target="closest .todo-item "
+                                hx-target="closest li.todo-item"
                                 hx-trigger="click"
-                                th:attr="hx-delete=@{/todos/{id}(id=${todo.id})}"
+                                hx-swap="outerHTML"
+                                th:attr="hx-delete=@{/{id}(id=${todo.id})}"
                         >Delete
                         </button>
                     </div>
@@ -66,6 +94,6 @@
 
     </div>
 </div>
-
 </body>
+
 </html>

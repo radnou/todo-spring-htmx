@@ -1,0 +1,19 @@
+{
+  "name": "todo-spring-htmx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/main/resources/static/styles/input.css -o ./src/main/resources/static/styles/main.css --watch",
+    "prod": "npx tailwindcss -i ./src/main/resources/static/styles/input.css -o ./src/main/resources/static/styles/main.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "daisyui": "^4.12.14",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15"
+  }
+}
