@@ -8,11 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Comparator;
 import java.util.Set;
@@ -57,13 +54,6 @@ class TodoController {
                 .stream()
                 .filter(t -> t.id().equals(todoId))
                 .forEach(this.todos::remove);
-
-        return "";
-    }
-
-    @PostMapping()
-    @ResponseStatus()
-    String create (@RequestParam BodyP){
 
         return "";
     }
