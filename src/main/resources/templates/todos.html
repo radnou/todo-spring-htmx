@@ -13,9 +13,21 @@
     <h1 class="text-3xl font-bold mb-4">My Todo List</h1>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
+        <!-- Todo Form -->
+        <div class="todo-form bg-base-100 p-4 shadow-xl rounded-lg" hx-swap-oob="true" th:fragment="todo-form">
+            <h2 class="text-2xl font-semibold mb-2">Add Task</h2>
+            <input class="input input-bordered w-full mb-4" id="new-todo" name="new-todo"
+                   placeholder="Enter new task..." type="text"/>
+            <button class="btn btn-primary"
+                    hx-include="#new-todo"
+                    hx-post="/todos"
+                    hx-target=".todo-list"
+                    hx-trigger="click"
+            >Add
+            </button>
+        </div>
         <!-- Todo List -->
-        <div class="todo-list" th:fragment="todos">>
+        <div class="todo-list" th:fragment="todos">
             <h2 class="text-2xl font-semibold mb-2">Tasks</h2>
             <ul class="bg-base-100 shadow-xl rounded-lg">
                 <li class="p-4 border-b hover:bg-base-200 todo-item" th:each="todo : ${todos}">
@@ -50,19 +62,7 @@
         </div>
 
 
-        <!-- Todo Form -->
-        <div class="todo-form bg-base-100 p-4 shadow-xl rounded-lg" hx-swap-oob="true" th:fragment="todo-form">
-            <h2 class="text-2xl font-semibold mb-2">Add Task</h2>
-            <input class="input input-bordered w-full mb-4" id="new-todo" name="new-todo"
-                   placeholder="Enter new task..." type="text"/>
-            <button class="btn btn-primary"
-                    hx-include="#new-todo"
-                    hx-post="/todos"
-                    hx-target=".todo-list"
-                    hx-trigger="click"
-            >Add
-            </button>
-        </div>
+
 
     </div>
 </div>
